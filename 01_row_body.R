@@ -6,7 +6,7 @@ menu_row <- tabItem(tabName = "row",
                         width = NULL,
                         solidHeader = TRUE,
                         status = "primary",
-                        tsui::uiTemplate(templateName = '数据模版'),
+                        tsui::uiTemplate(templateName = '计提数据模版'),
                         tsui::mdl_file(id = 'uploadfile', label =
                                          '上传excel数据表'),
                         tsui::mdl_ListChoose1(
