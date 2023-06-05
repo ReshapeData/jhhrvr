@@ -59,7 +59,7 @@ shinyServer(function(input, output, session) {
                               )
                             )
                           salary_data_excel = as.data.frame(salary_data_excel)
-                          
+
                           salary_data_excel = tsdo::na_standard(salary_data_excel)
                           
                           #显示数据
@@ -132,96 +132,6 @@ shinyServer(function(input, output, session) {
                           #显示数据
                           tsui::run_dataTable2(id = 'view_data', data = redetail)
                           print(redetail)
-                          
-                          
-                          # 将非研发金额空值替换为0
-                          redetail$非研发工资成本    = tsdo::na_replace(redetail$非研发工资成本, 0)
-                          
-                          # 非研发工时表字段
-                          col_nonrd = c(
-                            '序号',
-                            '工资类别',
-                            '会计年度',
-                            '会计期间',
-                            '原部门',
-                            '高新部门',
-                            '姓名',
-                            '费用承担组织',
-                            '个税申报组织',
-                            '单据编号',
-                            '非研发工资成本'
-                          )
-                          
-                          # 筛选非研发金额不为0的数据
-                          nonrddetail = redetail[redetail$非研发工资成本    != 0, col_nonrd]
-                          
-                          # 更名为数据库字段名
-                          names(nonrddetail) = c(
-                            'FNO',
-                            'FSalaryType',
-                            'FYear',
-                            'FMonth',
-                            'FOldDept',
-                            'FHightechDept',
-                            'FStaffName',
-                            'FExpenseOrgID',
-                            'FTaxDeclarationOrg',
-                            'FNumber',
-                            'FNonRdCost'
-                          )
-                          nonrddetail$FRdProject = ''
-                          
-                          
-                          # 工时表固定字段
-                          col_fixed = c(
-                            '序号',
-                            '工资类别',
-                            '会计年度',
-                            '会计期间',
-                            '原部门',
-                            '高新部门',
-                            '姓名',
-                            '费用承担组织',
-                            '个税申报组织',
-                            '单据编号',
-                            '单项总额',
-                            '研发工资成本',
-                            '非研发工资成本'
-                          )
-                          
-                          # 研发项目列转行
-                          redetail2 <-
-                            reshape2::melt(
-                              data = redetail,
-                              id.vars = col_fixed,
-                              variable.name = '研发项目',
-                              value.name = '研发金额'
-                            )
-                          
-                          # 研发工时表字段
-                          col_rd = c(
-                            '序号',
-                            '工资类别',
-                            '会计年度',
-                            '会计期间',
-                            '原部门',
-                            '高新部门',
-                            '姓名',
-                            '费用承担组织',
-                            '个税申报组织',
-                            '单据编号',
-                            '研发项目',
-                            '研发金额'
-                          )
-                          
-                          # 筛选研发工时需要字段
-                          rddetail = redetail2[, col_rd]
-                          
-                          # 研发金额为空时替换为0
-                          rddetail$研发金额    = tsdo::na_replace(rddetail$研发金额, 0)
-                          
-                          # 筛选研发金额不为0数据
-                          rddetail = rddetail[rddetail$研发金额    != 0, col_rd]
                           
                         }
                         else {
@@ -299,10 +209,11 @@ shinyServer(function(input, output, session) {
                         
                         salary_data_excel = as.data.frame(salary_data_excel)
                         salary_data_excel = tsdo::na_standard(salary_data_excel)
+                        
                         # salary_data_excel$FBankType = tsdo::na_replace(salary_data_excel$FBankType, '')
                         # salary_data_excel$FRdProject = tsdo::na_replace(salary_data_excel$FRdProject, '')
                         # salary_data_excel$FOldDept = tsdo::na_replace(salary_data_excel$FOldDept, '')
-                        #
+                        # 
                         # salary_data_excel$FCpayAmount = tsdo::na_replace(salary_data_excel$FCpayAmount, 0)
                         # salary_data_excel$FFixdCost = tsdo::na_replace(salary_data_excel$FFixdCost, 0)
                         # salary_data_excel$FScraprateCost = tsdo::na_replace(salary_data_excel$FScraprateCost, 0)
@@ -419,7 +330,7 @@ shinyServer(function(input, output, session) {
                         # socialsecurity_data_excel$FBankType = tsdo::na_replace(socialsecurity_data_excel$FBankType, '')
                         # socialsecurity_data_excel$FRdProject = tsdo::na_replace(socialsecurity_data_excel$FRdProject, '')
                         # socialsecurity_data_excel$FOldDept = tsdo::na_replace(socialsecurity_data_excel$FOldDept, '')
-                        #
+                        # 
                         # socialsecurity_data_excel$FComPensionBenefitsAmt = tsdo::na_replace(socialsecurity_data_excel$FComPensionBenefitsAmt, 0)
                         # socialsecurity_data_excel$FComMedicareAmt = tsdo::na_replace(socialsecurity_data_excel$FComMedicareAmt, 0)
                         # socialsecurity_data_excel$FComMedicareOfSeriousAmt = tsdo::na_replace(socialsecurity_data_excel$FComMedicareOfSeriousAmt, 0)
@@ -469,7 +380,7 @@ shinyServer(function(input, output, session) {
                         redetail = tsdo::na_standard(redetail)
                         
                         # 将非研发金额空值替换为0
-                        # redetail$非研发工资成本   = tsdo::na_replace(redetail$非研发工资成本, 0)
+                        redetail$非研发工资成本   = tsdo::na_replace(redetail$非研发工资成本, 0)
                         
                         # 非研发工时表字段
                         col_nonrd = c(
@@ -503,7 +414,31 @@ shinyServer(function(input, output, session) {
                           'FNumber',
                           'FNonRdCost'
                         )
-                        nonrddetail$FRdProject = ''
+                        
+              
+                        if (nrow(nonrddetail)>0){nonrddetail$FRdProject = ''
+                        
+                        # 写入非研发工时中间表
+                        tsda::db_writeTable2(
+                          token = token,
+                          table_name = 'rds_hrv_src_ds_nonrddetail_input',
+                          r_object = nonrddetail,
+                          append = FALSE
+                        )
+                        
+                        dsql = 'delete a from rds_hrv_src_ds_nonrddetail_input  a inner join rds_hrv_src_ds_nonrddetail b On a.FNumber=b.FNumber and a.FYear =b.FYear and a.FMonth =b.FMonth'
+                        tsda::sql_update2(token = token, sql_str = dsql)
+                        
+                        isql = 'insert into rds_hrv_src_ds_nonrddetail  select * from rds_hrv_src_ds_nonrddetail_input'
+                        tsda::sql_insert2(token = token, sql_str = isql)
+                        
+                        dsql = 'truncate table rds_hrv_src_ds_nonrddetail_input'
+                        tsda::sql_update2(token = token, sql_str = dsql)}
+                        
+                        
+                        
+                        
+                        
                         
                         
                         # 工时表固定字段
@@ -592,26 +527,8 @@ shinyServer(function(input, output, session) {
                         dsql = 'truncate table rds_hrv_src_ds_rddetail_input'
                         tsda::sql_update2(token = token, sql_str = dsql)
                         
-                        # 写入非研发工时中间表
-                        tsda::db_writeTable2(
-                          token = token,
-                          table_name = 'rds_hrv_src_ds_nonrddetail_input',
-                          r_object = nonrddetail,
-                          append = FALSE
-                        )
-                        
-                        dsql = 'delete a from rds_hrv_src_ds_nonrddetail_input  a inner join rds_hrv_src_ds_nonrddetail b On a.FNumber=b.FNumber and a.FYear =b.FYear and a.FMonth =b.FMonth'
-                        tsda::sql_update2(token = token, sql_str = dsql)
-                        
-                        isql = 'insert into rds_hrv_src_ds_nonrddetail  select * from rds_hrv_src_ds_nonrddetail_input'
-                        tsda::sql_insert2(token = token, sql_str = isql)
-                        
-                        dsql = 'truncate table rds_hrv_src_ds_nonrddetail_input'
-                        tsda::sql_update2(token = token, sql_str = dsql)
-                        
-                        
+
                         tsui::pop_notice('数据上传成功')
-                        
                         
                         
                         
@@ -630,7 +547,7 @@ shinyServer(function(input, output, session) {
                         print(var_hr_year)
                         print(class(var_hr_year))
                         
-                        outputvoucherpkg::outputvourchermain(token, var_hr_year, var_hr_month, var_environment)
+                        jhhrvvoucherpkg::outputvourchermain(token, var_hr_year, var_hr_month, var_environment)
                         tsui::pop_notice('凭证生成成功')
                         
                         
@@ -667,7 +584,7 @@ shinyServer(function(input, output, session) {
   #                       var_hr_year = var_hr_year()
   #                       var_hr_month = var_hr_month()
   #                       
-  #                       outputvoucherpkg::outputvourchermain(token, var_hr_year, var_hr_month, var_environment)
+  #                       jhhrvvoucherpkg::outputvourchermain(token, var_hr_year, var_hr_month, var_environment)
   #                       tsui::pop_notice('凭证生成成功')
   #                       
   #                       
