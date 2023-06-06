@@ -552,13 +552,13 @@ shinyServer(function(input, output, session) {
                         
                         
                   
-                        sql1 = sprintf("select * from rds_hrv_ods_ds_middleTable where fisdo=1 and fyear='%d' and fmonth='%d'",var_hr_year,var_hr_month)
+                        sql1 = sprintf("select * from rds_hrv_ods_ds_middleTable where fisdo=1 and fyear='%d.0' and fmonth='%d.0'",var_hr_year,var_hr_month)
                         print(sql1)
                         data1 = tsda::sql_select2(token, sql1)
                         # tsui::run_download_xlsx(id = 'btn_Asone_download1',data = data1 ,filename = '成功数据.xlsx')
                         
                         
-                        sql2 = sprintf("select * from rds_hrv_ods_ds_middleTable where fisdo=2 and fyear='%d' and fmonth='%d'",var_hr_year,var_hr_month)
+                        sql2 = sprintf("select * from rds_hrv_ods_ds_middleTable where fisdo=2 and fyear='%d.0' and fmonth='%d.0'",var_hr_year,var_hr_month)
                         print(sql2)
                         data2 = tsda::sql_select2(token, sql2)
                         
