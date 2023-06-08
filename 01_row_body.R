@@ -16,7 +16,9 @@ menu_row <- tabItem(tabName = "row",
                           choiceValues = list('工资', '社保', '工时'),
                           selected = '工资'),
                         shiny::actionButton(inputId = 'view' , label = '预览表单数据'),
-                        shiny::actionButton(inputId = 'btn_upload' , label = '确认上传数据')
+                        shiny::actionButton(inputId = 'btn_upload' , label = '确认上传数据'),
+                        shiny::actionButton(inputId = 'btn_reupload' , label = '重新上传数据')
+                  
                         
                       ),
                       box(
@@ -50,6 +52,7 @@ menu_row <- tabItem(tabName = "row",
                           choiceValues = list('账套查询DMS测试', '江苏嘉好热熔胶股份有限公司'),
                           selected = '账套查询DMS测试'),
                         shiny::actionButton(inputId = 'outputvoucher', label = '生成凭证'),
+                        shiny::actionButton(inputId = 'outputvoucher2', label = '重新生成凭证'),
                         # tsui::mdl_download_button(id = 'btn_Asone_download1',label = '下载成功日志'),
                         tsui::mdl_download_button(id = 'btn_Asone_download',label = '下载日志')
                       )
